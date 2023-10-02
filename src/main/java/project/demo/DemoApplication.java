@@ -19,13 +19,13 @@ public class DemoApplication {
 		SpringApplication.run(DemoApplication.class, args);
 	}
 
-	@Bean
-	public AuditorAware<String> auditorAware() {
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		if (authentication != null && authentication.isAuthenticated()) {
-			return () -> Optional.of(authentication.getName());
-		} else {
-			return () -> Optional.empty();
-		}
-	}
+//	@Bean
+//	public AuditorAware<String> auditorAware() {
+//		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//		if (authentication != null && authentication.isAuthenticated()) {
+//			return () -> Optional.of(authentication.getName());
+//		} else {
+//			return () -> Optional.empty();
+//		}
+//	}
 }

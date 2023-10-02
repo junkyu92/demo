@@ -1,5 +1,6 @@
 package project.demo.config;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -11,16 +12,20 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import project.demo.config.auth.CustomAuthFailureHandler;
 import project.demo.constant.Role;
 
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class SecurityConfig {
 
+    private final CustomAuthFailureHandler customFailureHandler;
     @Bean
     public WebSecurityCustomizer configure() {
         return (web) -> web.ignoring()
-                .requestMatchers("/css/**");
+                .requestMatchers("/css/**", "/js/**");
     }
 
     @Bean
@@ -29,16 +34,17 @@ public class SecurityConfig {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> authorize
-                    .requestMatchers("/signup", "/").permitAll()
+                    .requestMatchers("/signup", "/", "/login").permitAll()
                     .requestMatchers("/admin/**").hasRole(Role.ADMIN.name())
                     .requestMatchers("/manager/**").hasAnyRole(Role.MANAGER.name(),Role.ADMIN.name())
                     .anyRequest().authenticated()
                 )
                 .formLogin(formLogin -> formLogin
                     .loginPage("/login")
+                    .loginProcessingUrl("/loginProc")
                     .usernameParameter("email")
-                    .permitAll()
                     .defaultSuccessUrl("/")
+                    .failureHandler(customFailureHandler)
                 )
                 .logout(logout -> logout
                     .logoutSuccessUrl("/")

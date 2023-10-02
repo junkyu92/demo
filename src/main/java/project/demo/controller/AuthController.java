@@ -1,11 +1,13 @@
 package project.demo.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import project.demo.domain.Member;
 import project.demo.constant.Role;
 import project.demo.dto.LoginDto;
@@ -26,14 +28,17 @@ public class AuthController {
     }
 
     @PostMapping("/signup")
-    public String signup(SignupDto signupDto) {
+    public String signup(@Valid SignupDto signupDto) {
         memberService.signup(new Member(null, signupDto.getEmail(), passwordEncoder.encode(signupDto.getPassword()),signupDto.getNickname(), Role.MEMBER, null));
         return "redirect:/login";
     }
 
     @GetMapping("/login")
-    public String loginPage(LoginDto loginDto, Model model) {
-        model.addAttribute("loginDto", loginDto);
+    public String loginPage(@RequestParam(value = "error", required = false)String error,
+                            @RequestParam(value = "exception", required = false)String exception,
+                            Model model) {
+        model.addAttribute("error", error);
+        model.addAttribute("exception", exception);
         return "members/loginForm";
     }
 }
