@@ -12,8 +12,8 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import project.demo.config.auth.CustomAuthFailureHandler;
+import project.demo.config.oauth.PrincipalOauth2UserService;
 import project.demo.constant.Role;
 
 @Configuration
@@ -22,6 +22,7 @@ import project.demo.constant.Role;
 public class SecurityConfig {
 
     private final CustomAuthFailureHandler customFailureHandler;
+    private final PrincipalOauth2UserService principalOauth2UserService;
     @Bean
     public WebSecurityCustomizer configure() {
         return (web) -> web.ignoring()
@@ -45,6 +46,11 @@ public class SecurityConfig {
                     .usernameParameter("email")
                     .defaultSuccessUrl("/")
                     .failureHandler(customFailureHandler)
+                )
+                .oauth2Login(oauth2Login -> oauth2Login
+                        .loginPage("/login")
+                        .userInfoEndpoint()
+                        .userService(principalOauth2UserService)
                 )
                 .logout(logout -> logout
                     .logoutSuccessUrl("/")

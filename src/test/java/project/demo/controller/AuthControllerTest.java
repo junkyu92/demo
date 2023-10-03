@@ -84,7 +84,12 @@ class AuthControllerTest {
 
     @Test
     public void 로그인() throws Exception {
-        Member member = new Member(null, "test@gmail.com", passwordEncoder.encode("12345678"), "test", Role.MEMBER, null);
+        Member member = Member.builder()
+                .email("test@gmail.com")
+                .password(passwordEncoder.encode("12345678"))
+                .nickname("test")
+                .role(Role.MEMBER)
+                .build();
         memberRepository.save(member);
         mockMvc.perform(MockMvcRequestBuilders.post("/loginProc")
                         .param("email", "test@gmail.com")

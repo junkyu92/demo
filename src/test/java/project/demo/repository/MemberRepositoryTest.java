@@ -19,14 +19,25 @@ class MemberRepositoryTest {
 
     @Test
     public void 회원저장(){
-        Member member = new Member(null, "test@gmail.com", "1234", "test", Role.MEMBER, null);
+        Member member = Member.builder()
+                .email("test@gmail.com")
+                .password("1234")
+                .nickname("test")
+                .role(Role.MEMBER)
+                .build();
 
         assertThat(memberRepository.save(member)).isEqualTo(member);
     }
 
     @Test
     public void 회원조회_이메일(){
-        Member member = new Member(null, "test@gmail.com", "1234", "test", Role.MEMBER, null);
+        Member member = Member.builder()
+                .email("test@gmail.com")
+                .password("1234")
+                .nickname("test")
+                .role(Role.MEMBER)
+                .build();
+
         memberRepository.save(member);
 
         assertThat(memberRepository.findByEmail("test@gmail.com").orElseThrow()).isEqualTo(member);

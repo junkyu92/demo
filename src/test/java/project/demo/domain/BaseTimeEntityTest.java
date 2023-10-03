@@ -22,7 +22,12 @@ class BaseTimeEntityTest {
     private Member saveMember;
     @BeforeEach
     public void before(){
-        Member member = new Member(null, "test@gmail.com", "1234", "test", Role.MEMBER, null);
+        Member member = Member.builder()
+                .email("test@gmail.com")
+                .password("1234")
+                .nickname("test")
+                .role(Role.MEMBER)
+                .build();
         saveMember = memberRepository.save(member);
     }
     @Test

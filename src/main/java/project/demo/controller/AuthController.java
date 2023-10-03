@@ -29,7 +29,12 @@ public class AuthController {
 
     @PostMapping("/signup")
     public String signup(@Valid SignupDto signupDto) {
-        memberService.signup(new Member(null, signupDto.getEmail(), passwordEncoder.encode(signupDto.getPassword()),signupDto.getNickname(), Role.MEMBER, null));
+        memberService.signup(Member.builder()
+                        .email(signupDto.getEmail())
+                        .password(passwordEncoder.encode(signupDto.getPassword()))
+                        .nickname(signupDto.getNickname())
+                        .role(Role.MEMBER)
+                        .build());
         return "redirect:/login";
     }
 

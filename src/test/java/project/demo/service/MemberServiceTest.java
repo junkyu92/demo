@@ -19,7 +19,12 @@ class MemberServiceTest {
 
     @Test
     public void 회원가입(){
-        Member member = new Member(null, "test@gmail.com", "1234", "test", Role.MEMBER, null);
+        Member member = Member.builder()
+                .email("test@gmail.com")
+                .password("1234")
+                .nickname("test")
+                .role(Role.MEMBER)
+                .build();
         assertThat(memberService.signup(member)).isEqualTo(member);
     }
 }

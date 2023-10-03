@@ -22,7 +22,12 @@ class PrincipalDetailsServiceTest {
     @Autowired PasswordEncoder passwordEncoder;
     @Test
     public void 로그인_이메일확인(){
-        Member member = new Member(null, "test@gmail.com", passwordEncoder.encode("12345678"), "test", Role.MEMBER, null);
+        Member member = Member.builder()
+                .email("test@gmail.com")
+                .password(passwordEncoder.encode("12345678"))
+                .nickname("test")
+                .role(Role.MEMBER)
+                .build();
         memberRepository.save(member);
 
         assertThat(principalDetailsService.loadUserByUsername("test@gmail.com")).isNotNull();
@@ -30,7 +35,12 @@ class PrincipalDetailsServiceTest {
 
     @Test
     public void 로그인_이메일확인_예외(){
-        Member member = new Member(null, "test@gmail.com", passwordEncoder.encode("12345678"), "test", Role.MEMBER, null);
+        Member member = Member.builder()
+                .email("test@gmail.com")
+                .password(passwordEncoder.encode("12345678"))
+                .nickname("test")
+                .role(Role.MEMBER)
+                .build();
         memberRepository.save(member);
 
         assertThrows(IllegalArgumentException.class, ()->{principalDetailsService.loadUserByUsername("dsgdsgdsg");});
