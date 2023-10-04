@@ -9,16 +9,22 @@ import java.util.List;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
-public class Menu {
+public class Board {
 
     @Id
     @GeneratedValue
-    @Column(name = "menu_id")
+    @Column(name = "board_id")
     private Long id;
 
     private String name;
 
-    @OneToMany(mappedBy = "menu")
+    @OneToMany(mappedBy = "board")
     private List<Post> postList = new ArrayList<>();
+
+    @Builder
+    public Board(Long id, String name, List<Post> postList) {
+        this.id = id;
+        this.name = name;
+        this.postList = postList;
+    }
 }

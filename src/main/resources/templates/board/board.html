@@ -6,7 +6,9 @@
 <div class="container">
     <div th:replace="fragments/bodyHeader :: bodyHeader"></div>
 
-    main page
+    <ul th:each="post : ${board.get().getPostList()}">
+        <li>*{post.title}</li>
+    </ul>
 
     <div th:replace="fragments/footer :: footer"></div>
 </div>

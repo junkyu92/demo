@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <div class="header" th:fragment="bodyHeader">
     <ul class="nav nav-pills pull-right">
-        <li><a href="/static">Home</a></li>
+        <li class="navbar"><a href="/">Home</a></li>
+        <li class="navbar"><a href="/signup">회원가입</a></li>
+        <li class="navbar"><a href="/login">로그인</a></li>
+        <li class="navbar"><a href="/board/1">게시판</a></li>
     </ul>
-    <a href="/static"><h3 class="text-muted">menu</h3></a>
-    <a href="/static"><h3 class="text-muted">menu2</h3></a>
 </div>

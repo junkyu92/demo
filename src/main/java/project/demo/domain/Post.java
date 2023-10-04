@@ -21,8 +21,8 @@ public class Post extends BaseTimeEntity{
     private String content;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "menu_id")
-    private Menu menu;
+    @JoinColumn(name = "board_id")
+    private Board board;
 
     @OneToMany(mappedBy = "post")
     private List<Comment> commentList = new ArrayList<>();

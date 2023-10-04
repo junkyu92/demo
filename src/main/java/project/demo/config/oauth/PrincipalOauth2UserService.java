@@ -32,7 +32,6 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
         if (userRequest.getClientRegistration().getRegistrationId().equals("google")) {
             oAuth2UserInfo = new GoogleUserInfo(oAuth2User.getAttributes());
         } else if (userRequest.getClientRegistration().getRegistrationId().equals("naver")) {
-            System.out.println((Map<String, Object>) oAuth2User.getAttributes().get("response"));
             oAuth2UserInfo = new NaverUserInfo((Map<String, Object>) oAuth2User.getAttributes().get("response"));
         } else {
             System.out.println("지원하지 않는 요청입니다.");
