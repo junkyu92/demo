@@ -17,10 +17,15 @@ public class BoardController {
     private final BoardService boardService;
 
     @GetMapping("/board/{id}")
-    public String board(Model model, @PathVariable Long id, @PageableDefault(size = 15) Pageable pageable) {
-        model.addAttribute("boards", boardService.boardPage(id, pageable));
+    public String board(Model model, @PathVariable Long id) {
+        model.addAttribute("boardId", id);
         return "board/board";
     }
 
+    @GetMapping("/board/{id}/list")
+    public String postList(Model model, @PathVariable Long id, @PageableDefault(size = 15) Pageable pageable) {
+        model.addAttribute("boards", boardService.boardPage(id, pageable));
+        return "board/ajax/post-list";
+    }
 
 }

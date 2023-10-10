@@ -20,14 +20,17 @@ public class BoardService {
     private final BoardRepository boardRepository;
     private final BoardQuerydslRepository boardQuerydslRepository;
 
+    @Transactional(readOnly = true)
     public BoardDto findById(Long id) {
         return new BoardDto(boardRepository.findById(id).orElseThrow());
     }
 
+    @Transactional(readOnly = true)
     public Page<BoardDto> boardPage(Long id, Pageable pageable) {
         return boardQuerydslRepository.applyPaginationWithPostList(id, pageable);
     }
 
+    @Transactional(readOnly = true)
     public Page<BoardDto> findForManagerPage(Pageable pageable) {
         return boardQuerydslRepository.applyPagination(pageable);
     }

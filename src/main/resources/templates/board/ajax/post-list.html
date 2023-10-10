@@ -6,7 +6,7 @@
     </thead>
     <tr th:each="post : ${boards.getContent()}">
         <td>
-            <a th:href="@{/post/{postId}(postId=${post.id})}" th:text="*{post.title}"></a>
+            <a th:href="@{/post/{postId}(postId=${post.postId})}" th:text="*{post.title}"></a>
         </td>
         <td th:text="*{post.nickname}"></td>
         <td th:text="*{post.createDate}"></td>

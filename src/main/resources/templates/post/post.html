@@ -4,58 +4,41 @@
 <body>
 
 <div class="container">
-    <div th:replace="fragments/adminBodyHeader :: adminBodyHeader"></div>
-    <p>검색조건</p>
-    <input id="email" placeholder="EMAIL" class="input-group">
-    <input id="nickname" placeholder="NICKNAME" class="input-group">
-    <select id="roleSelect" class="custom-select">
-        <option value="">ROLE</option>
-        <option th:each="role : ${roles}" th:value="${role}" th:text="${role}"></option>
-    </select><br>
-    <select id="providerSelect" class="custom-select">
-        <option value="">PROVIDER</option>
-        <option th:each="provider : ${providers}" th:value="${provider}" th:text="${provider}"></option>
-    </select>
-    <div id="ajaxPart"></div>
+    <div th:replace="fragments/bodyHeader :: bodyHeader"></div>
+    <input type="hidden" id="id" th:value="${post.id}">
+    <h1 th:text="${post.title}"></h1>
+    <span th:text="${post.member.nickname}"></span>
+    <span th:text="${post.createDate}"></span>
+    <div class="content">
+        <p th:text="${post.content}"></p>
+    </div>
+
+    <label th:for="content">댓글</label>
+    <div id="commentList">
+    </div>
+    <form role="form" action="/comment" method="post">
+        <input type="hidden" name="postId" th:value="${post.id}">
+        <div class="form-group">
+            <textarea name="content" id="content" class="form-control"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">작성</button>
+    </form>
+
     <div th:replace="fragments/footer :: footer"></div>
 </div>
-
 </body>
 </html>
 <script>
-    searchMember(0)
-    $('.roleSelect').change(function (){
+    getCommentList(0)
+    function getCommentList(page) {
         $.ajax({
-            url : "/member/role/"+$(this).parents().attr("id"),
-            method : "PATCH",
-            data : {"role" : $(this).val()},
-            success: function () {
-                location.reload()
-            },
-        })
-    })
-    $('#email, #nickname, #roleSelect, #providerSelect').on('change', function () {
-        searchMember(0)
-    });
-
-    function searchMember(page) {
-        var email = $('#email').val();
-        var nickname = $('#nickname').val();
-        var role = $('#roleSelect').val();
-        var provider = $('#providerSelect').val();
-
-        $.ajax({
-            url: '/admin/member/list',
-            method: 'GET',
-            data: {
-                email: email,
-                nickname: nickname,
-                role: role,
-                provider: provider,
-                page: page
+            url: "/comments",
+            method: "get",
+            data: {postId: $('#id').val(),
+                page:page
             },
             success: function (d) {
-                $('#ajaxPart').html(d)
+                $('#commentList').html(d)
             }
         })
     }

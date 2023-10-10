@@ -6,8 +6,8 @@
 <div class="container">
     <div th:replace="fragments/bodyHeader :: bodyHeader"></div>
 
-    <a th:href="@{/post/createForm/{boardId}(boardId=${boards.getContent().get(0).id})}">게시글 작성</a>
-    <input type="hidden" id="id" th:value="${boards.getContent().get(0).id}">
+    <a th:href="@{/post/createForm/{boardId}(boardId=${boardId})}">게시글 작성</a>
+    <input type="hidden" id="id" th:value="${boardId}">
     <div id="ajaxPart"></div>
 
     <div th:replace="fragments/footer :: footer"></div>

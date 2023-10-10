@@ -16,7 +16,8 @@ public class PostService {
         postRepository.save(post);
     }
 
+    @Transactional(readOnly = true)
     public PostDto findById(Long id) {
-        return postRepository.findById(id);
+        return new PostDto(postRepository.findById(id).orElseThrow());
     }
 }

@@ -13,13 +13,15 @@ import project.demo.config.auth.PrincipalDetails;
 import project.demo.domain.Board;
 import project.demo.dto.PostDto;
 import project.demo.service.BoardService;
+import project.demo.service.CommentService;
 import project.demo.service.PostService;
 
 @Controller
 @RequiredArgsConstructor
 public class PostController {
-    private final BoardService boardService;
+    private final CommentService commentService;
     private final PostService postService;
+
 
     @GetMapping("/post/createForm/{boardId}")
     public String postCreateForm(@PathVariable("boardId") Long boardId, Model model) {
@@ -34,14 +36,8 @@ public class PostController {
         return "redirect:/board/" + postDto.getBoardId();
     }
 
-    @GetMapping("/board/{id}/list")
-    public String postList(Model model, @PathVariable Long id, @PageableDefault(size = 15) Pageable pageable) {
-        model.addAttribute("boards", boardService.boardPage(id, pageable));
-        return "board/ajax/post-list";
-    }
-
     @GetMapping("/post/{id}")
-    public String postDetail(@PathVariable("id") Long id, Model model) {
+    public String postDetail(@PathVariable Long id, Model model) {
         model.addAttribute("post", postService.findById(id));
         return "post/post";
     }

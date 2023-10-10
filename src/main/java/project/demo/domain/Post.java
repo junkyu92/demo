@@ -2,6 +2,7 @@ package project.demo.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.Type;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +18,7 @@ public class Post extends BaseTimeEntity{
     private Long id;
 
     private String title;
+    @Column(length = 1000)
     private String content;
 
     @ManyToOne(fetch = FetchType.LAZY)
