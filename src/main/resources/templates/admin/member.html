@@ -1,0 +1,62 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header"></head>
+<body>
+
+<div class="container">
+    <div th:replace="fragments/adminBodyHeader :: adminBodyHeader"></div>
+    <p>검색조건</p>
+    <input id="email" placeholder="EMAIL" class="input-group">
+    <input id="nickname" placeholder="NICKNAME" class="input-group">
+    <select id="roleSelect" class="custom-select">
+        <option value="">ROLE</option>
+        <option th:each="role : ${roles}" th:value="${role}" th:text="${role}"></option>
+    </select><br>
+    <select id="providerSelect" class="custom-select">
+        <option value="">PROVIDER</option>
+        <option th:each="provider : ${providers}" th:value="${provider}" th:text="${provider}"></option>
+    </select>
+    <div id="ajaxPart"></div>
+    <div th:replace="fragments/footer :: footer"></div>
+</div>
+
+</body>
+</html>
+<script>
+    searchMember(0)
+    $('.roleSelect').change(function (){
+        $.ajax({
+            url : "/member/role/"+$(this).parents().attr("id"),
+            method : "PATCH",
+            data : {"role" : $(this).val()},
+            success: function () {
+                location.reload()
+            },
+        })
+    })
+    $('#email, #nickname, #roleSelect, #providerSelect').on('change', function () {
+        searchMember(0)
+    });
+
+    function searchMember(page) {
+        var email = $('#email').val();
+        var nickname = $('#nickname').val();
+        var role = $('#roleSelect').val();
+        var provider = $('#providerSelect').val();
+
+        $.ajax({
+            url: '/admin/member/list',
+            method: 'GET',
+            data: {
+                email: email,
+                nickname: nickname,
+                role: role,
+                provider: provider,
+                page: page
+            },
+            success: function (d) {
+                $('#ajaxPart').html(d)
+            }
+        })
+    }
+</script>

@@ -21,6 +21,9 @@ public class Board {
     @OneToMany(mappedBy = "board")
     private List<Post> postList = new ArrayList<>();
 
+    public void changeName(String name){
+        this.name = name;
+    }
     @Builder
     public Board(Long id, String name, List<Post> postList) {
         this.id = id;

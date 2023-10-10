@@ -4,8 +4,11 @@
 <div class="header" th:fragment="bodyHeader">
     <ul class="nav nav-pills pull-right">
         <li class="navbar"><a href="/">Home</a></li>
-        <li class="navbar"><a href="/signup">회원가입</a></li>
-        <li class="navbar"><a href="/login">로그인</a></li>
         <li class="navbar"><a href="/board/1">게시판</a></li>
+        <li class="navbar" th:if="${#authorization.expression('isAuthenticated()')}"><a href="/logout">로그아웃</a></li>
+        <li class="navbar" th:if="${!#authorization.expression('isAuthenticated()')}"><a href="/signup">회원가입</a></li>
+        <li class="navbar" th:if="${!#authorization.expression('isAuthenticated()')}"><a href="/login">로그인</a></li>
+        <li class="navbar" th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}"><a href="/admin">어드민 페이지</a></li>
+        <li class="navbar" th:if="${#authorization.expression('hasRole(''ROLE_MANAGER'')')}"><a href="/manager">관리자 페이지</a></li>
     </ul>
 </div>

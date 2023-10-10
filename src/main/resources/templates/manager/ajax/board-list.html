@@ -1,0 +1,48 @@
+    <table class="table">
+        <thead>
+            <th>아이디</th>
+            <th>이름</th>
+            <th>게시글 수</th>
+        </thead>
+        <tr th:each="board : ${boards}">
+            <td th:text="${board.id}"></td>
+            <td th:text="${board.name}"></td>
+            <td th:text="${board.postNum}"></td>
+            <td><a th:href="@{/manager/boardForm/{boardId}(boardId=${board.id})}">수정</a></td>
+            <td th:id="${board.id}">
+                <button class="deleteButton">삭제</button>
+            </td>
+        </tr>
+    </table>
+
+    <nav aria-label="Page navigation" class="pagination justify-content-center">
+        <ul class="pagination">
+            <li th:if="${boards.hasPrevious()}" class="page-item">
+                <a href="#" th:onclick="'searchMember(0);'" class="page-link">처음</a>
+            </li>
+            <li th:if="${boards.hasPrevious()}" class="page-item">
+                <a href="#" th:onclick="'searchMember(\'' + ${boards.getNumber()-1} + '\');'" class="page-link">이전</a>
+            </li>
+            <li th:each="i : ${#numbers.sequence(0, boards.totalPages - 1)}" class="page-item">
+                <a href="#" th:onclick="'searchMember(\'' + ${i} + '\');'" th:classappend="${boards.number == i} ? 'active' : ''" class="page-link" th:text="${i + 1}">1</a>
+            </li>
+            <li th:if="${boards.hasNext()}" class="page-item">
+                <a href="#" th:onclick="'searchMember(\'' + ${boards.getNumber()+1} + '\');'" class="page-link">다음</a>
+            </li>
+            <li th:if="${boards.hasNext()}" class="page-item">
+                <a href="#" th:onclick="'searchMember(\'' + ${boards.getTotalPages() - 1} + '\');'" class="page-link">끝</a>
+            </li>
+        </ul>
+    </nav>
+    <script>
+        $('.deleteButton').click(function (){
+            $.ajax({
+                url: "/board/" + $(this).parents().attr("id"),
+                method: "delete",
+                data: {},
+                success: function (){
+                    location.reload()
+                }
+            });
+        })
+    </script>

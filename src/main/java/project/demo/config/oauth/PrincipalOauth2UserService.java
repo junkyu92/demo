@@ -11,6 +11,7 @@ import project.demo.config.auth.PrincipalDetails;
 import project.demo.config.oauth.provider.GoogleUserInfo;
 import project.demo.config.oauth.provider.NaverUserInfo;
 import project.demo.config.oauth.provider.OAuth2UserInfo;
+import project.demo.constant.Provider;
 import project.demo.constant.Role;
 import project.demo.domain.Member;
 import project.demo.repository.MemberRepository;
@@ -49,7 +50,7 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
     }
 
     public Member createMember(OAuth2UserInfo oAuth2UserInfo){
-        String provider = oAuth2UserInfo.getProvider();
+        Provider provider = oAuth2UserInfo.getProvider();
         String providerId = oAuth2UserInfo.getProviderId();
         String nickname = provider + providerId;
         String password = "no";

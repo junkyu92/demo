@@ -1,7 +1,9 @@
 package project.demo.config.oauth.provider;
 
+import project.demo.constant.Provider;
+
 public interface OAuth2UserInfo {
-    String getProvider();
+    Provider getProvider();
     String getProviderId();
     String getEmail();
     String getName();

@@ -4,10 +4,10 @@
 <body>
 
 <div class="container">
-    <div th:replace="fragments/bodyHeader :: bodyHeader"></div>
+    <div th:replace="fragments/managerBodyHeader :: managerBodyHeader"></div>
 
-    <a th:href="@{/post/createForm/{boardId}(boardId=${boards.getContent().get(0).id})}">게시글 작성</a>
-    <input type="hidden" id="id" th:value="${boards.getContent().get(0).id}">
+    <a href="/manager/boardForm">게시판 생성</a>
+
     <div id="ajaxPart"></div>
 
     <div th:replace="fragments/footer :: footer"></div>
@@ -16,10 +16,12 @@
 </body>
 </html>
 <script>
-    searchPost(0)
-    function searchPost(page) {
+    searchBoard(0)
+
+
+    function searchBoard(page) {
         $.ajax({
-            url: '/board/'+$('#id').val()+'/list',
+            url: '/manager/board/list',
             method: 'GET',
             data: {
                 page: page

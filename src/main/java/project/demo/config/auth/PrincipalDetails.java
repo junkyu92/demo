@@ -1,5 +1,6 @@
 package project.demo.config.auth;
 
+import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -12,6 +13,7 @@ import java.util.Map;
 
 public class PrincipalDetails implements UserDetails, OAuth2User {
 
+    @Getter
     private final Member member;
     private Map<String, Object> attributes;
 

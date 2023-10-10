@@ -1,13 +1,15 @@
 package project.demo.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import project.demo.domain.Board;
+import project.demo.dto.BoardDto;
 import project.demo.repository.BoardRepository;
+import project.demo.repository.QuerydslRepository.BoardQuerydslRepository;
 
-import java.util.Collection;
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -16,19 +18,33 @@ import java.util.Optional;
 public class BoardService {
 
     private final BoardRepository boardRepository;
+    private final BoardQuerydslRepository boardQuerydslRepository;
 
-    public Optional<Board> findById(Long id) {
-        return boardRepository.findById(id);
+    public BoardDto findById(Long id) {
+        return new BoardDto(boardRepository.findById(id).orElseThrow());
     }
 
-    public List<Board> findAll() {
-        return boardRepository.findAll();
+    public Page<BoardDto> boardPage(Long id, Pageable pageable) {
+        return boardQuerydslRepository.applyPaginationWithPostList(id, pageable);
+    }
+
+    public Page<BoardDto> findForManagerPage(Pageable pageable) {
+        return boardQuerydslRepository.applyPagination(pageable);
     }
 
     public void create(String name) {
-        boardRepository.save(Board.builder().name(name).build());
+        Optional<Board> findBoard = boardRepository.findByname(name);
+        if (findBoard.isPresent()) {
+            findBoard.get().changeName(name);
+        } else {
+            boardRepository.save(Board.builder().name(name).build());
+        }
     }
 
+    public void changeBoardName(Long id, String name) {
+        Optional<Board> findBoard = boardRepository.findById(id);
+        if(findBoard.isPresent()) findBoard.get().changeName(name);
+    }
     public void delete(Long id) {
         boardRepository.delete(Board.builder().id(id).build());
     }

@@ -1,5 +1,7 @@
 package project.demo.config.oauth.provider;
 
+import project.demo.constant.Provider;
+
 import java.util.Map;
 
 public class NaverUserInfo implements OAuth2UserInfo {
@@ -9,8 +11,8 @@ public class NaverUserInfo implements OAuth2UserInfo {
     }
 
     @Override
-    public String getProvider() {
-        return "naver";
+    public Provider getProvider() {
+        return Provider.NAVER;
     }
 
     @Override

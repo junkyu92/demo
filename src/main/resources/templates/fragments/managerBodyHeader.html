@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
-<div class="header" th:fragment="adminBodyHeader">
+<div class="header" th:fragment="managerBodyHeader">
     <ul class="nav nav-pills pull-right">
         <li class="navbar"><a href="/">Home</a></li>
-        <li class="navbar"><a href="/admin/member">회원 관리</a></li>
+        <li class="navbar" th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}"><a href="/admin/member">회원 관리</a></li>
         <li class="navbar"><a href="/manager/board">게시판 관리</a></li>
         <li class="navbar" th:if="${#authorization.expression('isAuthenticated()')}"><a href="/logout">로그아웃</a></li>
     </ul>

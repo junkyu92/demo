@@ -1,5 +1,7 @@
 package project.demo.config.oauth.provider;
 
+import project.demo.constant.Provider;
+
 import java.util.Map;
 
 public class GoogleUserInfo implements OAuth2UserInfo {
@@ -9,8 +11,8 @@ public class GoogleUserInfo implements OAuth2UserInfo {
     }
 
     @Override
-    public String getProvider() {
-        return "google";
+    public Provider getProvider() {
+        return Provider.GOOGLE;
     }
 
     @Override
