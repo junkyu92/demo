@@ -1,15 +1,15 @@
 <table class="table">
-    <thead>
-    <th>제목</th>
-    <th>작성자</th>
-    <th>작성일</th>
+    <thead class="thead-light">
+        <th>제목</th>
+        <th>작성자</th>
+        <th>작성일</th>
     </thead>
     <tr th:each="post : ${boards.getContent()}">
         <td>
-            <a th:href="@{/post/{postId}(postId=${post.postId})}" th:text="*{post.title}"></a>
+            <a th:href="@{/post/{postId}(postId=${post.postId})}" th:text="*{post.title}" class="d-inline-block text-truncate" style="max-width: 300px;"></a>
         </td>
-        <td th:text="*{post.nickname}"></td>
-        <td th:text="*{post.createDate}"></td>
+        <td><span th:text="*{post.nickname}" class="d-inline-block text-truncate" style="max-width: 150px;"></span></td>
+        <td><span th:text="*{post.createDate}" class="d-inline-block text-truncate" style="max-width: 150px;"></span></td>
     </tr>
 </table>
 

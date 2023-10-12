@@ -8,7 +8,7 @@
     </thead>
     <tr th:each="member : ${members}">
         <td th:text="${member.email}"></td>
-        <td th:text="${member.nickname}"></td>
+        <td th:text="${member.nickname}" class="d-inline-block text-truncate" style="max-width: 200px;"></td>
         <td th:text="${member.postNum}"></td>
         <td th:text="${member.role}"></td>
         <td th:id="${member.id}">

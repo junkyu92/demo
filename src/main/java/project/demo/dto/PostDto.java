@@ -28,7 +28,7 @@ public class PostDto {
                 .title(this.title)
                 .content(this.content)
                 .member(this.member)
-                .board(Board.builder().id(this.boardId).build())
+                .board(this.board)
                 .build();
     }
 

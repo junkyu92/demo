@@ -33,7 +33,6 @@ public class Post extends BaseTimeEntity{
     private List<Comment> commentList = new ArrayList<>();
     //이미지 업로드 관련 추가
 
-
     @Builder
     public Post(Long id, String title, String content, Member member, Board board, List<Comment> commentList) {
         this.id = id;
@@ -42,5 +41,10 @@ public class Post extends BaseTimeEntity{
         this.member = member;
         this.board = board;
         this.commentList = commentList;
+    }
+
+    public void changePost(String title, String content) {
+        this.title = title;
+        this.content = content;
     }
 }

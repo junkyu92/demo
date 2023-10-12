@@ -11,7 +11,7 @@
         <label th:for="name">이름</label>
         <input type="text" id="name" name="name" class="form-control" placeholder="게시판 이름을 입력하세요." th:value="${board.name}">
     </div>
-    <button id="updateBtn" type="submit" class="btn btn-primary">Submit</button>
+    <button id="submitBtn" type="submit" class="btn btn-primary">Submit</button>
 
     <div th:replace="fragments/footer :: footer"></div>
 </div>
@@ -19,7 +19,28 @@
 </body>
 </html>
 <script>
-    $('#updateBtn').click(function () {
+    $('#submitBtn').click(function () {
+        if($('#id').val()===''){
+            create()
+        }else{
+            update()
+        }
+    });
+
+    function create(){
+        $.ajax({
+            url: "/manager/board",
+            method: "post",
+            data: {
+                name: $('#name').val()
+            },
+            success(d){
+                location.href="/manager/board"
+            }
+        })
+    }
+
+    function update(){
         $.ajax({
             url: "/manager/board",
             method: "patch",
@@ -31,5 +52,5 @@
                 location.href="/manager/board"
             }
         })
-    });
+    }
 </script>

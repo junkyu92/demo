@@ -1,0 +1,63 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header"></head>
+<body>
+
+<div class="container">
+    <div th:replace="fragments/bodyHeader :: bodyHeader"></div>
+
+    <input type="hidden" id="boardId" th:value="${post.boardId}">
+    <input type="hidden" id="id" th:value="${post.id}">
+    <div class="form-group">
+        <label th:for="title">제목</label>
+        <input type="text" id="title" name="title" class="form-control" placeholder="제목을 입력해주세요." th:value="${post.title}">
+    </div>
+    <div class="form-group">
+        <textarea id="content" name="content" class="form-control" placeholder="내용을 입력해주세요." th:value="${post.content}" th:text="${post.content}"></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary" id="submitBtn">Submit</button>
+
+    <div th:replace="fragments/footer :: footer"></div>
+</div>
+
+</body>
+</html>
+<script>
+    $('#submitBtn').click(function () {
+        if ($('#id').val() === '') {
+            create()
+        } else {
+            update()
+        }
+    })
+
+    function create() {
+        $.ajax({
+            url: "/post",
+            method: "post",
+            data: {
+                boardId: $('#boardId').val(),
+                title: $('#title').val(),
+                content: $('#content').val()
+            },
+            success: function (d) {
+                location.href = d;
+            }
+        })
+    }
+
+    function update() {
+        $.ajax({
+            url: "/post",
+            method: "patch",
+            data: {
+                id: $('#id').val(),
+                title: $('#title').val(),
+                content: $('#content').val()
+            },
+            success: function (d) {
+                location.href = d;
+            }
+        })
+    }
+</script>

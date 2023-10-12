@@ -6,11 +6,18 @@
 <div class="container">
     <div th:replace="fragments/bodyHeader :: bodyHeader"></div>
     <input type="hidden" id="id" th:value="${post.id}">
-    <h1 th:text="${post.title}"></h1>
-    <span th:text="${post.member.nickname}"></span>
-    <span th:text="${post.createDate}"></span>
+    <input type="hidden" id="boardId" th:value="${post.board.id}">
+    <h1 th:text="${post.title}" class="h1 text-break"></h1>
+    <div>
+        <span th:text="${post.member.nickname}"></span>
+        <span class="text-truncate" th:text="${post.createDate}"></span>
+    </div><br>
     <div class="content">
-        <p th:text="${post.content}"></p>
+        <p class="p text-break" th:text="${post.content}"></p>
+    </div>
+    <div>
+    <button class="btn" id="updateBtn">수정</button>
+    <button class="btn" id="deleteBtn">삭제</button>
     </div>
 
     <label th:for="content">댓글</label>
@@ -42,4 +49,19 @@
             }
         })
     }
+
+    $('#updateBtn').click(function (){
+        location.href="/post/form/"+$('#boardId').val()+"/"+$('#id').val()
+    })
+
+    $('#deleteBtn').click(function (){
+        $.ajax({
+            url: "/post",
+            method: "delete",
+            date: {},
+            success: function () {
+                alert('s')
+            }
+        })
+    })
 </script>

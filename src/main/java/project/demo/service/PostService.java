@@ -7,13 +7,20 @@ import project.demo.domain.Post;
 import project.demo.dto.PostDto;
 import project.demo.repository.PostRepository;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 @Transactional
 public class PostService {
     private final PostRepository postRepository;
-    public void save(Post post) {
-        postRepository.save(post);
+    public Long save(Post post) {
+        return postRepository.save(post).getId();
+    }
+
+    public void changePost(Long id, String title, String content) {
+        Optional<Post> findPost = postRepository.findById(id);
+        findPost.ifPresent(post -> post.changePost(title, content));
     }
 
     @Transactional(readOnly = true)

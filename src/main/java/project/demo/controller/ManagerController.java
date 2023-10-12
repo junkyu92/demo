@@ -13,6 +13,8 @@ import project.demo.dto.searchcondition.MemberSearchCondition;
 import project.demo.service.BoardService;
 import project.demo.service.MemberService;
 
+import java.util.Optional;
+
 @Controller
 @RequiredArgsConstructor
 public class ManagerController {
@@ -36,20 +38,16 @@ public class ManagerController {
         return "manager/ajax/board-list";
     }
 
-    @GetMapping("/manager/boardForm")
-    public String boardCreateForm() {
-        return "manager/boardCreateForm";
-    }
-    @GetMapping("/manager/boardForm/{id}")
-    public String boardUpdateForm(@PathVariable("id") Long id, Model model) {
-        model.addAttribute("board", boardService.findById(id));
-        return "manager/boardUpdateForm";
+    @GetMapping({"/manager/boardForm", "/manager/boardForm/{id}"})
+    public String boardUpdateForm(@PathVariable(name = "id") Optional<Long> id, Model model) {
+        BoardDto boardDto = id.map(boardService::findById).orElse(BoardDto.builder().build());
+        model.addAttribute("board", boardDto);
+        return "manager/boardForm";
     }
 
     @PostMapping("/manager/board")
-    public String createBoard(@RequestParam("name") String name) {
+    public void createBoard(@RequestParam("name") String name) {
         boardService.create(name);
-        return "redirect:/manager/board";
     }
 
     @PatchMapping("/manager/board")
